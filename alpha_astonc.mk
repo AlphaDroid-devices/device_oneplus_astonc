@@ -29,6 +29,9 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
     SystemDevice=OP5CF9L1 \
     SystemName=OP5CF9L1
 
+# Prebuilt DTB
+TARGET_USES_PREBUILT_DTB := false
+
 # Device config
 TARGET_HAS_UDFPS := true
 TARGET_ENABLE_BLUR := true
