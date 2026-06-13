@@ -91,3 +91,6 @@ $(call inherit-product, device/oneplus/sm8550-common/common.mk)
 
 # Inherit from the proprietary files makefile.
 $(call inherit-product, vendor/oneplus/astonc/astonc-vendor.mk)
+
+# OPlus Camera (global 12R stack)
+$(call inherit-product-if-exists, vendor/oplus/camera/camera-vendor.mk)
