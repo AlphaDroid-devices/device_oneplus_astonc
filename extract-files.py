@@ -22,8 +22,6 @@ namespace_imports = [
     'hardware/pixelworks/interfaces',
     'hardware/qcom-caf/sm8550',
     'vendor/oneplus/sm8550-common',
-    # odm camera consumers (libEIS, libHIS, ...) are repointed at libui_oplus, which is declared in
-    # the vendor/oplus/camera soong namespace -> import it so those shared_libs deps resolve.
     'vendor/oplus/camera',
     'vendor/qcom/opensource/display',
     'vendor/qcom/opensource/commonsys-intf/display',
@@ -43,23 +41,9 @@ lib_fixups: lib_fixups_user_type = {
 }
 
 blob_fixups: blob_fixups_user_type = {
-    # NOTE (kiro-147): the old SystemCamera-zeroing regex_replace on
-    # odm/etc/camera/CameraHWConfiguration.config was REMOVED. The "aston: refresh 12R camera
-    # blobs" refresh (4d8bb37) restored the STOCK config in the tree, and every build validated
-    # since (R1 + the whole R2 crash hunt, incl. the kiro-78 real dual-bokeh verification) ran with
-    # stock SystemCamera flags. The fixup contradicted the tree and would have silently changed
-    # camera visibility on the next re-extraction; the stock config is the tested state.
     'odm/lib64/libAlgoProcess.so': blob_fixup()
         .replace_needed('android.hardware.graphics.common-V3-ndk.so', 'android.hardware.graphics.common-V7-ndk.so')
-        # Pull our GOT-interposer into com.oplus.camera so it can clamp the P010 LSB->MSB
-        # over-walk (APSFormatConverter::p010LSB2MSB) that SIGSEGVs the algo CapThread.
         .add_needed('libapsfixup.so'),
-    # OOS camera stack expects the small-ABI ColorOS libui (sizeof(GraphicBuffer)==264); AOSP-16's
-    # platform libui is larger, so its GraphicBuffer ctor overran libEIS's 264-byte alloc ->
-    # heap-header corruption -> the hold-to-record SIGSEGV. The small libui is shipped SEPARATELY
-    # as libui_oplus.so by vendor/oplus/camera (renamed so it cannot shadow the platform libui for
-    # the whole vendor partition via the /odm/${LIB} search path -> that caused a boot loop).
-    # Repoint these odm camera consumers at the isolated libui_oplus.so.
     (
         'odm/lib64/libEIS.so',
         'odm/lib64/libHIS.so',
@@ -75,10 +59,6 @@ blob_fixups: blob_fixups_user_type = {
         'odm/lib64/libyuv2.so'
     ): blob_fixup()
         .replace_needed('libstdc++.so', 'libstdc++_vendor.so'),
-    # (kiro-147) libEISLive.so removed from this group: it is shipped by vendor/oplus/camera (not
-    # this module), and the shipped binary verifiably has NO symbol-version clearing — only the
-    # libui_oplus repoint registered there. The entry here was dead (file absent from this
-    # module's proprietary-files.txt).
     (
         'odm/lib64/libHIS.so',
         'odm/lib64/libOGLManager.so',
@@ -102,11 +82,6 @@ blob_fixups: blob_fixups_user_type = {
         'vendor/lib64/camx.provider-impl.so',
     ): blob_fixup()
         .replace_needed('libtinyxml2.so', 'libtinyxml2-v34.so'),
-    # dodge fixup parity: AOSP-16 ships AIDL graphics.allocator-V2-ndk; OOS-built CHI/Feature2
-    # libs may DT_NEEDED the V1-ndk variant. patchelf --replace-needed is a no-op when the
-    # source DT_NEEDED isn't present, so this is safe even though the current 12R blobs use
-    # the HIDL allocator@4.0 path. Kept for robustness against blob revisions and to match the
-    # proven dodge configuration.
     (
         'vendor/lib64/camera/components/com.qti.node.dewarp.so',
         'vendor/lib64/hw/com.qti.chi.override.so',
