@@ -43,8 +43,12 @@ lib_fixups: lib_fixups_user_type = {
 }
 
 blob_fixups: blob_fixups_user_type = {
-    'odm/etc/camera/CameraHWConfiguration.config': blob_fixup()
-        .regex_replace('SystemCamera =  0;  0;  0;  1;  0;  1;', 'SystemCamera =  0;  0;  0;  0;  0;  0;'),
+    # NOTE (kiro-147): the old SystemCamera-zeroing regex_replace on
+    # odm/etc/camera/CameraHWConfiguration.config was REMOVED. The "aston: refresh 12R camera
+    # blobs" refresh (4d8bb37) restored the STOCK config in the tree, and every build validated
+    # since (R1 + the whole R2 crash hunt, incl. the kiro-78 real dual-bokeh verification) ran with
+    # stock SystemCamera flags. The fixup contradicted the tree and would have silently changed
+    # camera visibility on the next re-extraction; the stock config is the tested state.
     'odm/lib64/libAlgoProcess.so': blob_fixup()
         .replace_needed('android.hardware.graphics.common-V3-ndk.so', 'android.hardware.graphics.common-V7-ndk.so')
         # Pull our GOT-interposer into com.oplus.camera so it can clamp the P010 LSB->MSB
@@ -71,8 +75,11 @@ blob_fixups: blob_fixups_user_type = {
         'odm/lib64/libyuv2.so'
     ): blob_fixup()
         .replace_needed('libstdc++.so', 'libstdc++_vendor.so'),
+    # (kiro-147) libEISLive.so removed from this group: it is shipped by vendor/oplus/camera (not
+    # this module), and the shipped binary verifiably has NO symbol-version clearing — only the
+    # libui_oplus repoint registered there. The entry here was dead (file absent from this
+    # module's proprietary-files.txt).
     (
-        'odm/lib64/libEISLive.so',
         'odm/lib64/libHIS.so',
         'odm/lib64/libOGLManager.so',
         'odm/lib64/libOPAlgoCamFaceBeautyCap.so'
