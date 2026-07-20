@@ -43,6 +43,7 @@ import java.util.Arrays;
 
 import org.lineageos.device.settings.Constants;
 import org.lineageos.device.settings.memc.MemcGameService;
+import org.lineageos.device.settings.memc.VideoMemcService;
 import org.lineageos.device.settings.display.AodBrightnessController;
 import org.lineageos.device.settings.display.DisplayModeController;
 import org.lineageos.device.settings.display.HbmController;
@@ -64,6 +65,7 @@ public class DeviceSettings extends SettingsBasePreferenceFragment
     private SwitchPreferenceCompat mAodHighBrightnessSwitch;
     private SwitchPreferenceCompat mMemcGameSwitch;
     private Preference mMemcGamesPref;
+    private SwitchPreferenceCompat mMemcVideoSwitch;
 
     private HbmController mHbmController;
     private PwmController mPwmController;
@@ -114,6 +116,7 @@ public class DeviceSettings extends SettingsBasePreferenceFragment
 
         mMemcGameSwitch = (SwitchPreferenceCompat) findPreference(Constants.KEY_MEMC_GAME);
         mMemcGamesPref = findPreference(Constants.KEY_MEMC_GAME_APPS);
+        mMemcVideoSwitch = (SwitchPreferenceCompat) findPreference(Constants.KEY_MEMC_VIDEO);
         // Iris 7P is Ace 3 hardware; hide MEMC UI when the chip is absent
         if (FileUtils.fileExists("/sys/kernel/iris/chip_version")) {
             if (mMemcGameSwitch != null) {
@@ -124,12 +127,19 @@ public class DeviceSettings extends SettingsBasePreferenceFragment
                     mMemcGamesPref.setEnabled(memcOn);
                 }
             }
+            if (mMemcVideoSwitch != null) {
+                mMemcVideoSwitch.setChecked(VideoMemcService.isMasterEnabled(getContext()));
+                mMemcVideoSwitch.setOnPreferenceChangeListener(this);
+            }
         } else {
             if (mMemcGameSwitch != null) {
                 removePref(mMemcGameSwitch);
             }
             if (mMemcGamesPref != null) {
                 removePref(mMemcGamesPref);
+            }
+            if (mMemcVideoSwitch != null) {
+                removePref(mMemcVideoSwitch);
             }
         }
 
@@ -269,6 +279,11 @@ public class DeviceSettings extends SettingsBasePreferenceFragment
             }
             MemcGameService.notifyStateChanged(getContext());
             Log.i(TAG, "Game MEMC " + (enabled ? "enabled" : "disabled"));
+            return true;
+        } else if (preference == mMemcVideoSwitch) {
+            boolean enabled = (Boolean) newValue;
+            VideoMemcService.setMasterEnabled(getContext(), enabled);
+            Log.i(TAG, "Video MEMC " + (enabled ? "enabled" : "disabled"));
             return true;
         }
 

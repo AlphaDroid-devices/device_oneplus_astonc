@@ -27,6 +27,8 @@ import android.os.UserHandle;
 import android.provider.Settings;
 import android.util.Log;
 
+import androidx.preference.PreferenceManager;
+
 import org.lineageos.device.settings.Constants;
 import org.lineageos.device.settings.refreshrate.RefreshRateMonitorService;
 import org.lineageos.device.settings.utils.FileUtils;
@@ -80,6 +82,30 @@ public class VideoMemcService extends Service {
     public static boolean isPinActive() {
         VideoMemcService instance = sInstance;
         return instance != null && instance.mPinned;
+    }
+
+    // ===== Master enable (Video Enhancement toggle) =====
+
+    /** SharedPreferences source of truth; default on to match the composer's
+     *  unset-prop default ("1"). */
+    public static boolean isMasterEnabled(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context)
+                .getBoolean(Constants.KEY_MEMC_VIDEO, true);
+    }
+
+    /** Persist the choice and mirror it to the composer gate. */
+    public static void setMasterEnabled(Context context, boolean enabled) {
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putBoolean(Constants.KEY_MEMC_VIDEO, enabled)
+                .apply();
+        applyMasterEnable(context);
+    }
+
+    /** Push the persisted state onto the composer gate (called at boot too, since
+     *  SharedPreferences is authoritative and the persist prop could drift). */
+    public static void applyMasterEnable(Context context) {
+        SystemProperties.set(Constants.PROP_AUTO_MEMC, isMasterEnabled(context) ? "1" : "0");
     }
 
     public static void notifyStateChanged(Context context) {

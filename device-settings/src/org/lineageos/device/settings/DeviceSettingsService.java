@@ -167,7 +167,9 @@ public class DeviceSettingsService extends Service {
         try {
             RefreshRateController.getInstance(this);
             RefreshRateMonitorService.notifyStateChanged(this);
-            // Video MEMC pin follows the composer's fullscreen-video signal (always on).
+            // Mirror the persisted Video Enhancement choice onto the composer gate,
+            // then start the pin service that follows the composer's video signal.
+            VideoMemcService.applyMasterEnable(this);
             VideoMemcService.notifyStateChanged(this);
             if (Constants.DEBUG) Log.i(TAG, "RefreshRate initialized");
         } catch (Exception e) {

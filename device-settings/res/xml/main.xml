@@ -78,6 +78,20 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="video"
+        android:title="@string/video_category_title">
+
+        <SwitchPreferenceCompat
+            android:key="memc_video_enable"
+            android:icon="@drawable/ic_video"
+            android:persistent="false"
+            android:defaultValue="true"
+            android:title="@string/memc_video_title"
+            android:summary="@string/memc_video_summary" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="gaming"
         android:title="@string/gaming_category_title">
 

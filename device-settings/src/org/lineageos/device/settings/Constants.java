@@ -143,6 +143,13 @@ public class Constants {
      * only for the existing MIN/PEAK_REFRESH_RATE pin while a session is active. */
     /** SharedPreferences boolean — master toggle */
     public static final String KEY_MEMC_GAME = "memc_game_enable";
+    /** SharedPreferences boolean — Video Enhancement master toggle (default on).
+     *  Mirrored to {@link #PROP_AUTO_MEMC} so the composer honours it. */
+    public static final String KEY_MEMC_VIDEO = "memc_video_enable";
+    /** Composer gate for auto video MEMC (default "1"): "0" stops the composer
+     *  from ever requesting a video FRC session. System-owned (coredomain-writable)
+     *  and public so the vendor composer can read it. Written from the toggle. */
+    public static final String PROP_AUTO_MEMC = "persist.sys.display.iris.auto_memc";
     /** Preference that opens the per-game enable list */
     public static final String KEY_MEMC_GAME_APPS = "memc_game_apps";
     /** SharedPreferences: pipe-separated packages the user has opted out of

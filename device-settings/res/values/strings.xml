@@ -50,6 +50,11 @@
     <string name="notification_slider_ringer_vibrate">Vibrate</string>
     <string name="notification_slider_ringer_silent">Silent</string>
 
+    <!-- Video category -->
+    <string name="video_category_title">Video</string>
+    <string name="memc_video_title">Video enhancement</string>
+    <string name="memc_video_summary">Smooth motion by boosting fullscreen video to 120 fps</string>
+
     <!-- Gaming category -->
     <string name="gaming_category_title">Gaming</string>
     <string name="memc_game_title">MEMC</string>
