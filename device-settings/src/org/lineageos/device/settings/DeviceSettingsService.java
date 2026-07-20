@@ -33,6 +33,7 @@ import org.lineageos.device.settings.gamebar.GameBar;
 import org.lineageos.device.settings.gamebar.GameBarMonitorService;
 import org.lineageos.device.settings.refreshrate.RefreshRateController;
 import org.lineageos.device.settings.memc.MemcGameService;
+import org.lineageos.device.settings.memc.VideoMemcService;
 import org.lineageos.device.settings.refreshrate.RefreshRateMonitorService;
 import org.lineageos.device.settings.utils.FileUtils;
 
@@ -166,6 +167,8 @@ public class DeviceSettingsService extends Service {
         try {
             RefreshRateController.getInstance(this);
             RefreshRateMonitorService.notifyStateChanged(this);
+            // Video MEMC pin follows the composer's fullscreen-video signal (always on).
+            VideoMemcService.notifyStateChanged(this);
             if (Constants.DEBUG) Log.i(TAG, "RefreshRate initialized");
         } catch (Exception e) {
             Log.e(TAG, "Failed to initialize RefreshRate", e);
