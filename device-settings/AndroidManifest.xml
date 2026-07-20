@@ -233,6 +233,22 @@
             android:enabled="true"
             android:exported="false" />
 
+        <!-- Game MEMC per-game list (mirrors BypassChargingActivity) -->
+        <activity android:name=".memc.MemcGameActivity"
+            android:label="@string/memc_game_apps_title"
+            android:theme="@style/Theme.SubSettingsBase.Expressive"
+            android:exported="true">
+            <meta-data
+                android:name="com.android.settings.summary"
+                android:resource="@string/memc_game_apps_summary" />
+        </activity>
+
+        <!-- Game MEMC Service -->
+        <service
+            android:name=".memc.MemcGameService"
+            android:enabled="true"
+            android:exported="false" />
+
         <!-- Refresh Rate QS Tile Service -->
         <service
             android:name=".refreshrate.RefreshRateTile"

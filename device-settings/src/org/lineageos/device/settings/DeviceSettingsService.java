@@ -32,6 +32,7 @@ import org.lineageos.device.settings.display.PwmController;
 import org.lineageos.device.settings.gamebar.GameBar;
 import org.lineageos.device.settings.gamebar.GameBarMonitorService;
 import org.lineageos.device.settings.refreshrate.RefreshRateController;
+import org.lineageos.device.settings.memc.MemcGameService;
 import org.lineageos.device.settings.refreshrate.RefreshRateMonitorService;
 import org.lineageos.device.settings.utils.FileUtils;
 
@@ -80,6 +81,7 @@ public class DeviceSettingsService extends Service {
         initializeTestTe();
         initializeGameBar();
         initializeRefreshRate();
+        initializeMemcGame();
     }
 
     private void initializeBypassCharging() {
@@ -167,6 +169,16 @@ public class DeviceSettingsService extends Service {
             if (Constants.DEBUG) Log.i(TAG, "RefreshRate initialized");
         } catch (Exception e) {
             Log.e(TAG, "Failed to initialize RefreshRate", e);
+        }
+    }
+
+    private void initializeMemcGame() {
+        if (Constants.DEBUG) Log.i(TAG, "Initializing MemcGame");
+        try {
+            MemcGameService.notifyStateChanged(this);
+            if (Constants.DEBUG) Log.i(TAG, "MemcGame initialized");
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to initialize MemcGame", e);
         }
     }
 

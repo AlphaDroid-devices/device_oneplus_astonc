@@ -20,6 +20,7 @@ import android.util.Log;
 
 import org.lineageos.device.settings.Constants;
 import org.lineageos.device.settings.display.HbmController;
+import org.lineageos.device.settings.memc.MemcGameService;
 import org.lineageos.device.settings.utils.FileUtils;
 import org.lineageos.device.settings.utils.ForegroundAppDetector;
 
@@ -173,6 +174,13 @@ public class RefreshRateMonitorService extends Service {
         // fight that pin - overrides re-apply on the next app change after HBM ends
         if (HbmController.getInstance(this).isHbmEnabled()) {
             if (Constants.DEBUG) Log.i(TAG, "HBM active, skipping refresh rate change");
+            return;
+        }
+
+        // Same contract for a game MEMC session: FRC needs the fixed 120 pin;
+        // MemcGameService re-notifies this service when the session ends
+        if (MemcGameService.isPinActive()) {
+            if (Constants.DEBUG) Log.i(TAG, "Game MEMC pin active, skipping refresh rate change");
             return;
         }
 

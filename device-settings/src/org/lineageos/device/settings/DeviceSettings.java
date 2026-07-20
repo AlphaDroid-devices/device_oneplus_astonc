@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.UserHandle;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
@@ -41,6 +42,7 @@ import com.android.settingslib.widget.SettingsBasePreferenceFragment;
 import java.util.Arrays;
 
 import org.lineageos.device.settings.Constants;
+import org.lineageos.device.settings.memc.MemcGameService;
 import org.lineageos.device.settings.display.AodBrightnessController;
 import org.lineageos.device.settings.display.DisplayModeController;
 import org.lineageos.device.settings.display.HbmController;
@@ -60,6 +62,8 @@ public class DeviceSettings extends SettingsBasePreferenceFragment
     private SwitchPreferenceCompat mOnePulsePWMSwitch;
     private SwitchPreferenceCompat mHbmSwitch;
     private SwitchPreferenceCompat mAodHighBrightnessSwitch;
+    private SwitchPreferenceCompat mMemcGameSwitch;
+    private Preference mMemcGamesPref;
 
     private HbmController mHbmController;
     private PwmController mPwmController;
@@ -105,6 +109,27 @@ public class DeviceSettings extends SettingsBasePreferenceFragment
             } else {
                 mAodHighBrightnessSwitch.setEnabled(false);
                 removePref(mAodHighBrightnessSwitch);
+            }
+        }
+
+        mMemcGameSwitch = (SwitchPreferenceCompat) findPreference(Constants.KEY_MEMC_GAME);
+        mMemcGamesPref = findPreference(Constants.KEY_MEMC_GAME_APPS);
+        // Iris 7P is Ace 3 hardware; hide MEMC UI when the chip is absent
+        if (FileUtils.fileExists("/sys/kernel/iris/chip_version")) {
+            if (mMemcGameSwitch != null) {
+                boolean memcOn = MemcGameService.isEnabled(getContext());
+                mMemcGameSwitch.setChecked(memcOn);
+                mMemcGameSwitch.setOnPreferenceChangeListener(this);
+                if (mMemcGamesPref != null) {
+                    mMemcGamesPref.setEnabled(memcOn);
+                }
+            }
+        } else {
+            if (mMemcGameSwitch != null) {
+                removePref(mMemcGameSwitch);
+            }
+            if (mMemcGamesPref != null) {
+                removePref(mMemcGamesPref);
             }
         }
 
@@ -235,6 +260,15 @@ public class DeviceSettings extends SettingsBasePreferenceFragment
                 // Preference still updated — restore will re-apply when the node is ready.
             }
             Log.i(TAG, "AOD high brightness " + (high ? "enabled (50 nits)" : "disabled (10 nits)"));
+            return true;
+        } else if (preference == mMemcGameSwitch) {
+            boolean enabled = (Boolean) newValue;
+            MemcGameService.setEnabled(getContext(), enabled);
+            if (mMemcGamesPref != null) {
+                mMemcGamesPref.setEnabled(enabled);
+            }
+            MemcGameService.notifyStateChanged(getContext());
+            Log.i(TAG, "Game MEMC " + (enabled ? "enabled" : "disabled"));
             return true;
         }
 

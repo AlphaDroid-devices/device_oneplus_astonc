@@ -52,6 +52,13 @@
 
     <!-- Gaming category -->
     <string name="gaming_category_title">Gaming</string>
+    <string name="memc_game_title">MEMC</string>
+    <string name="memc_game_summary">Boost supported games to 120 fps (requires 60 fps in-game setting)</string>
+    <string name="memc_game_apps_title">MEMC games</string>
+    <string name="memc_game_apps_summary">Choose which supported games use frame interpolation</string>
+    <string name="memc_game_apps_category">Supported games</string>
+    <string name="memc_game_apps_empty">No supported games installed</string>
+    <string name="memc_game_apps_empty_summary">Install a profiled game (e.g. PUBG) to manage it here</string>
     <string name="gaming_category_summary">Extra settings for gamers</string>
 
     <!-- Bypass chargings -->

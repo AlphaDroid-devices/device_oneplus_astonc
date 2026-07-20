@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     MEMC game profiles - Iris 7P IMV game interpolation (Ace 3 / astonc only).
+
+     Imported from stock ACE3_400 my_product/vendor/etc/multimedia_pixelworks_game_apps.xml
+     (mConfigIMVPackage entries, type "258-10-99-<scene>-99-<id>-<fps>", 99 = -1).
+     The composer request engine sends: irisConfigureSet(258, [10, -1, scene, -1, id, fps])
+       10    = single MEMC
+       scene = bitfield: bits0-3 MEMC scene (2 = normal game), bits4-7 latency
+               (50 = 0x32 game + ultra-low latency; Genshin uses 18 = 0x12 game + normal latency)
+       id    = Pixelworks per-game motion-vector profile ("game app list" param 4)
+       fps   = game render fps the interpolator expects; MEMC doubles it to the panel
+               (60 -> 120). Stock XML placeholder is 45; the policy replaces it with the
+               per-game target at runtime, and so does ours (user-selectable).
+
+     Packages not shipped in the stock CN XML may reuse an id when they share the same
+     engine/renderer as the profiled CN build (marked "not in stock XML").
+-->
+<memc-games>
+    <!-- PUBG family: id 0 = Game for Peace, the CN PUBG. Global/India/KR builds share
+         the same engine and rendering pipeline (id-0 reuse; verify on first probe). -->
+    <game package="com.tencent.ig"   scene="50" id="0" fps="60" /> <!-- PUBG Mobile (Global), not in stock XML -->
+    <game package="com.pubg.imobile" scene="50" id="0" fps="60" /> <!-- BGMI (India), not in stock XML -->
+    <game package="com.pubg.krmobile" scene="50" id="0" fps="60" /> <!-- PUBG Mobile (KR/JP), not in stock XML -->
+
+    <!-- Stock ACE3_400 IMV list, imported verbatim (order preserved) -->
+    <game package="com.tencent.tmgp.pubgmhd" scene="50" id="0" fps="60" /> <!-- Game for Peace (PUBG Mobile) -->
+    <game package="com.tencent.tmgp.wuxia" scene="50" id="2" fps="45" /> <!-- Moonlight Blade -->
+    <game package="com.miHoYo.Yuanshen" scene="18" id="3" fps="45" /> <!-- Genshin Impact (CN) -->
+    <game package="com.miHoYo.ys.bilibili" scene="18" id="3" fps="45" /> <!-- Genshin Impact (Bilibili) -->
+    <game package="com.miHoYo.GenshinImpact" scene="18" id="3" fps="45" /> <!-- Genshin Impact (Global) -->
+    <game package="com.miHoYo.ys.mi" scene="18" id="3" fps="45" /> <!-- Genshin Impact (Xiaomi) -->
+    <game package="com.miHoYo.bh3.nearme.gamecenter" scene="50" id="4" fps="45" /> <!-- Honkai Impact 3rd (Oppo) -->
+    <game package="com.miHoYo.enterprise.NGHSoD" scene="50" id="4" fps="45" /> <!-- Honkai Impact 3rd (Global) -->
+    <game package="com.miHoYo.bh3.bilibili" scene="50" id="4" fps="45" /> <!-- Honkai Impact 3rd (Bilibili) -->
+    <game package="com.netease.dwrg.nearme.gamecenter" scene="50" id="8" fps="45" /> <!-- Identity V (Oppo) -->
+    <game package="com.netease.dwrg" scene="50" id="8" fps="45" /> <!-- Identity V (CN) -->
+    <game package="com.tencent.tmgp.speedmobile" scene="50" id="9" fps="45" /> <!-- QQ Speed -->
+    <game package="com.tencent.tmgp.sgame" scene="50" id="10" fps="45" /> <!-- Honor of Kings -->
+    <game package="com.netease.sky.nearme.gamecenter" scene="50" id="11" fps="45" /> <!-- Sky: Children of the Light (Oppo) -->
+    <game package="com.netease.sky" scene="50" id="11" fps="45" /> <!-- Sky: Children of the Light (CN) -->
+    <game package="com.netease.onmyoji.nearme.gamecenter" scene="50" id="12" fps="45" /> <!-- Onmyoji (Oppo) -->
+    <game package="com.netease.onmyoji" scene="50" id="12" fps="45" /> <!-- Onmyoji (CN) -->
+    <game package="com.tencent.tmgp.cf" scene="50" id="13" fps="45" /> <!-- CrossFire: Legends -->
+    <game package="com.netease.moba.nearme.gamecenter" scene="50" id="14" fps="45" /> <!-- Onmyoji Arena (Oppo) -->
+    <game package="com.netease.moba" scene="50" id="14" fps="45" /> <!-- Onmyoji Arena (CN) -->
+    <game package="com.netease.mrzh.nearme.gamecenter" scene="50" id="15" fps="45" /> <!-- LifeAfter (Oppo) -->
+    <game package="com.netease.mrzh" scene="50" id="15" fps="45" /> <!-- LifeAfter (CN) -->
+    <game package="com.tencent.lolm" scene="50" id="16" fps="45" /> <!-- League of Legends: Wild Rift -->
+    <game package="com.sofunny.Sausage" scene="50" id="19" fps="45" /> <!-- Sausage Man -->
+    <game package="com.tencent.fifamobile" scene="50" id="20" fps="45" /> <!-- FIFA Mobile -->
+    <game package="com.tencent.KiHan" scene="50" id="21" fps="45" /> <!-- Naruto -->
+    <game package="com.tencent.tmgp.NBA" scene="50" id="22" fps="45" /> <!-- Strongest NBA -->
+    <game package="com.tencent.tmgp.WePop" scene="50" id="23" fps="45" /> <!-- KartRider Rush+ -->
+    <game package="com.tencent.tmgp.djsy" scene="50" id="24" fps="45" /> <!-- Chimeraland -->
+    <game package="com.netease.aceracer.nearme.gamecenter" scene="50" id="25" fps="45" /> <!-- Ace Racer (Oppo) -->
+    <game package="com.netease.aceracer" scene="50" id="25" fps="45" /> <!-- Ace Racer (CN) -->
+    <game package="com.tencent.jkchess" scene="50" id="26" fps="45" /> <!-- Battle of Golden Spatula (TFT) -->
+    <game package="com.happyelements.AndroidAnimal" scene="50" id="27" fps="45" /> <!-- Anipop -->
+    <game package="com.tencent.mf.uam" scene="50" id="28" fps="45" /> <!-- Arena Breakout -->
+    <game package="com.tencent.egame" scene="50" id="29" fps="45" /> <!-- LoL Esports Manager -->
+    <game package="com.netease.g67.nearme.gamecenter" scene="50" id="30" fps="45" /> <!-- Diablo Immortal (Oppo) -->
+    <game package="com.tencent.tmgp.g67" scene="50" id="30" fps="45" /> <!-- Diablo Immortal (Tencent) -->
+    <game package="com.hypergryph.arknights" scene="50" id="31" fps="45" /> <!-- Arknights -->
+    <game package="com.bilibili.azurlane" scene="50" id="32" fps="45" /> <!-- Azur Lane -->
+    <game package="com.feiyu.luobo4.nearme.gamecenter" scene="50" id="33" fps="45" /> <!-- Carrot Fantasy 4 (Oppo) -->
+    <game package="com.feiyu.luobo4" scene="50" id="33" fps="45" /> <!-- Carrot Fantasy 4 (CN) -->
+    <game package="com.blizzard.wtcg.hearthstone" scene="50" id="34" fps="45" /> <!-- Hearthstone -->
+    <game package="com.habby.danke.nearme.gamecenter" scene="50" id="35" fps="45" /> <!-- Survivor.io -->
+    <game package="com.outfit7.talkingtomgoldrun.nearme.gamecenter" scene="50" id="36" fps="45" /> <!-- Talking Tom Gold Run -->
+    <game package="com.tencent.tmgp.supercell.clashofclans" scene="50" id="37" fps="45" /> <!-- Clash of Clans (Tencent) -->
+    <game package="com.supercell.clashofclans.nearme.gamecenter" scene="50" id="37" fps="45" /> <!-- Clash of Clans (Oppo) -->
+    <game package="com.lew.game.monster.nearme.gamecenter" scene="50" id="38" fps="45" /> <!-- Monster Dentist -->
+    <game package="com.sgshd.nearme.gamecenter" scene="50" id="39" fps="45" /> <!-- Legends of Three Kingdoms (Oppo) -->
+    <game package="com.bf.sgs.hdexp" scene="50" id="39" fps="45" /> <!-- Legends of Three Kingdoms (CN) -->
+    <game package="com.bilibili.hunter3.nearme.gamecenter" scene="50" id="40" fps="45" /> <!-- Space Hunter 3 -->
+    <game package="com.kiloo.subwaysurf" scene="50" id="41" fps="45" /> <!-- Subway Surfers -->
+    <game package="com.leiting.aobi.nearme.gamecenter" scene="50" id="42" fps="45" /> <!-- Aobi Island: Dreamland (Oppo) -->
+    <game package="com.leiting.aobi" scene="50" id="42" fps="45" /> <!-- Aobi Island: Dreamland (CN) -->
+    <game package="com.jd.game.popbear.nearme.gamecenter" scene="50" id="43" fps="45" /> <!-- Pop Bear -->
+    <game package="com.tencent.pao" scene="50" id="44" fps="45" /> <!-- Tiantian Kupao -->
+    <game package="com.hslx.xjslz.nearme.gamecenter" scene="50" id="45" fps="45" /> <!-- Star Hunter -->
+    <game package="com.tencent.jfcot" scene="50" id="46" fps="45" /> <!-- Fingertip Lord -->
+    <game package="com.tencent.hyrzol" scene="50" id="47" fps="45" /> <!-- Naruto: Ninja New Generations -->
+    <game package="com.bairimeng.dmmdzz.nearme.gamecenter" scene="50" id="48" fps="45" /> <!-- Escape Boy (Oppo) -->
+    <game package="com.bairimeng.dmmdzz" scene="50" id="48" fps="45" /> <!-- Escape Boy (CN) -->
+    <game package="com.netease.party.nearme.gamecenter" scene="50" id="49" fps="45" /> <!-- Eggy Party (Oppo) -->
+    <game package="com.netease.party" scene="50" id="49" fps="45" /> <!-- Eggy Party (CN) -->
+    <game package="com.pandadastudio.ninjamustdie3.nearme.gamecenter" scene="50" id="50" fps="45" /> <!-- Ninja Must Die 3 (Oppo) -->
+    <game package="com.pandadastudio.ninjamustdie3" scene="50" id="50" fps="45" /> <!-- Ninja Must Die 3 (CN) -->
+    <game package="com.tencent.peng" scene="50" id="51" fps="45" /> <!-- Tian Tian Ai Xiao Chu -->
+    <game package="com.tencent.tmgp.sgamece" scene="50" id="52" fps="45" /> <!-- Honor of Kings前瞻版 -->
+    <game package="com.zy.game.psdc.nearme.gamecenter" scene="50" id="53" fps="45" /> <!-- Pizza Feast -->
+    <game package="com.supercell.clashroyale.nearme.gamecenter" scene="50" id="54" fps="45" /> <!-- Clash Royale (Oppo) -->
+    <game package="com.tencent.tmgp.supercell.clashroyale" scene="50" id="54" fps="45" /> <!-- Clash Royale (Tencent) -->
+    <game package="com.imangi.templerun2" scene="50" id="55" fps="45" /> <!-- Temple Run 2 -->
+    <game package="com.fangzhenfeijijiashi5.nearme.gamecenter" scene="50" id="56" fps="45" /> <!-- Flight Simulator -->
+    <game package="com.netease.tom.nearme.gamecenter" scene="50" id="57" fps="45" /> <!-- Tom and Jerry -->
+    <game package="com.eyouz.ssgzslpd.nearme.gamecenter" scene="50" id="58" fps="45" /> <!-- Fashion Princess Salon Party -->
+    <game package="com.sy.dldlhsdj.nearme.gamecenter" scene="50" id="59" fps="45" /> <!-- Soul Land: Advent of the Gods -->
+    <game package="com.cmplay.tiles2_cn" scene="50" id="60" fps="45" /> <!-- Piano Tiles 2 -->
+    <game package="com.mfp.jelly.oppo" scene="50" id="61" fps="45" /> <!-- Bingo Crush -->
+    <game package="mnlmdmx.xplay.kyx.nearme.gamecenter" scene="50" id="62" fps="45" /> <!-- Mini League Adventure -->
+    <game package="com.tuyoo.fish3d.nearme.gamecenter" scene="50" id="63" fps="45" /> <!-- Fishing Clash (Oppo) -->
+    <game package="com.tuyoo.fish3d.official" scene="50" id="63" fps="45" /> <!-- Fishing Clash (Official) -->
+    <game package="com.zyhy.tsmnq.nearme.gamecenter" scene="50" id="64" fps="45" /> <!-- Antistress Master -->
+    <game package="com.xmy.bxjqr.nearme.gamecenter" scene="50" id="65" fps="45" /> <!-- Autobot Transformers Racing -->
+    <game package="com.junhai.yzjq.nearme.gamecenter" scene="50" id="66" fps="45" /> <!-- Rise of the Ants -->
+    <game package="com.hc.sdbxp.nearme.gamecenter" scene="50" id="67" fps="45" /> <!-- Shy Hammer -->
+    <game package="com.sy.xxyg.nearme.gamecenter" scene="50" id="68" fps="45" /> <!-- The Ants: Underground Kingdom -->
+    <game package="cn.herofight.classicblocks.nearme.gamecenter" scene="50" id="69" fps="45" /> <!-- Classic Tetris (B&W) -->
+    <game package="com.lew.game.pianoblock.nearme.gamecenter" scene="50" id="70" fps="45" /> <!-- Rhythm Piano Tiles -->
+    <game package="com.netease.my.nearme.gamecenter" scene="50" id="71" fps="45" /> <!-- Fantasy Westward Journey (Oppo) -->
+    <game package="com.netease.my" scene="50" id="71" fps="45" /> <!-- Fantasy Westward Journey (CN) -->
+    <game package="com.ledou.mhhy.nearme.gamecenter" scene="50" id="72" fps="45" /> <!-- Gardenscapes -->
+    <game package="com.zf.myds.nearme.gamecenter" scene="50" id="73" fps="45" />
+    <game package="com.carrot.carrotfantasy" scene="50" id="74" fps="45" /> <!-- Carrot Fantasy -->
+    <game package="com.wedobest.HD1010.nearme.gamecenter" scene="50" id="75" fps="45" /> <!-- Tetris -->
+    <game package="com.gzbnn.op.fkzxc.nearme.gamecenter" scene="50" id="76" fps="45" /> <!-- Crazy Bicycle -->
+    <game package="com.zhuoqu.jiujiuxiaoxiongdi.nearme.gamecenter" scene="50" id="77" fps="45" /> <!-- Save the Bro -->
+    <game package="com.pdragon.new2048.nearme.gamecenter" scene="50" id="78" fps="45" /> <!-- New 2048 -->
+    <game package="com.happyelements.AndroidClover.nearme.gamecenter" scene="50" id="79" fps="45" /> <!-- Seaside Anipop -->
+    <game package="com.chengshiquanmin.nearme.gamecenter" scene="50" id="80" fps="45" /> <!-- City Shootout -->
+    <game package="com.netease.jddsaef.nearme.gamecenter" scene="50" id="81" fps="45" /> <!-- Super Mecha Champions -->
+    <game package="cn.jj.log.nearme.gamecenter" scene="50" id="82" fps="45" /> <!-- Dawn Hero -->
+    <game package="com.tencent.tmaoe" scene="50" id="83" fps="45" /> <!-- Return to Empire -->
+    <game package="com.netease.g104.nearme.gamecenter" scene="50" id="84" fps="45" /> <!-- MARVEL Super War -->
+    <game package="com.bilibili.deadcells.mobile.nearme.gamecenter" scene="50" id="85" fps="45" /> <!-- Dead Cells -->
+    <game package="com.outfit7.herodash.nearme.gamecenter" scene="50" id="86" fps="45" /> <!-- Talking Tom Hero Dash -->
+    <game package="com.carrot.iceworld" scene="50" id="87" fps="45" /> <!-- Carrot Fantasy 2 -->
+    <game package="com.yodo1.rodeo.nearme.gamecenter" scene="50" id="88" fps="45" /> <!-- Rodeo Stampede -->
+    <game package="com.brianbaek.popstar" scene="50" id="89" fps="45" /> <!-- PopStar! -->
+    <game package="com.kurogame.haru.nearme.gamecenter" scene="50" id="90" fps="45" /> <!-- Punishing: Gray Raven (Oppo) -->
+    <game package="com.kurogame.haru.hero" scene="50" id="90" fps="45" /> <!-- Punishing: Gray Raven (Hero) -->
+    <game package="com.kurogame.haru.bilibili" scene="50" id="90" fps="45" /> <!-- Punishing: Gray Raven (Bilibili) -->
+    <game package="com.playrix.township.chukong.nearme.gamecenter" scene="50" id="91" fps="45" /> <!-- Township -->
+    <game package="com.jd.game.fruitsmasher.nearme.gamecenter" scene="50" id="92" fps="45" /> <!-- Fruit Smash -->
+    <game package="com.zthy.ncmnq2.nearme.gamecenter" scene="50" id="93" fps="45" /> <!-- Milk Tea Simulator -->
+    <game package="com.tencent.dm" scene="50" id="94" fps="45" /> <!-- Digimon: New Century -->
+    <game package="com.ea.simcitymobile.nearme.gamecenter" scene="50" id="95" fps="45" /> <!-- SimCity BuildIt -->
+    <game package="com.supercell.boombeach.nearme.gamecenter" scene="50" id="96" fps="45" /> <!-- Boom Beach (Oppo) -->
+    <game package="com.supercell.boombeach.uc" scene="50" id="96" fps="45" /> <!-- Boom Beach (UC) -->
+    <game package="com.tencent.tmgp.qmdgl" scene="50" id="97" fps="45" /> <!-- Streetball Allstar -->
+    <game package="com.fingertip.saolei.nearme.gamecenter" scene="50" id="98" fps="45" /> <!-- Minesweeper World -->
+    <game package="com.sihai.lianxianlaile.nearme.gamecenter" scene="50" id="99" fps="45" /> <!-- Connect Dots -->
+    <game package="com.netease.hyxd.nearme.gamecenter" scene="50" id="106" fps="45" /> <!-- Knives Out -->
+    <game package="com.tencent.af" scene="50" id="107" fps="45" /> <!-- Ace Force -->
+    <game package="com.ustwo.monumentvalleyzz" scene="50" id="108" fps="45" /> <!-- Monument Valley -->
+    <game package="com.liuxinkeji.cooking.madness.nearme.gamecenter" scene="50" id="109" fps="45" /> <!-- Cooking Madness -->
+    <game package="com.yzy.jzhcr.nearme.gamecenter" scene="50" id="110" fps="45" /> <!-- Stickman Fight -->
+    <game package="com.haishangshengcun.nearme.gamecenter" scene="50" id="111" fps="45" /> <!-- Ocean Survival -->
+    <game package="com.crossgate.kuaishou.nearme.gamecenter" scene="50" id="112" fps="45" /> <!-- CrossGate: Traveler -->
+    <game package="com.turbochilli.rollingsky_cn.nearme.gamecenter" scene="50" id="113" fps="45" /> <!-- Rolling Sky -->
+    <game package="com.cmcm.arrowio_cn.nearme.gamecenter" scene="50" id="114" fps="45" /> <!-- Arrow.io -->
+    <game package="com.fy.ccdz.nearme.gamecenter" scene="50" id="115" fps="45" /> <!-- Racing Battle -->
+    <game package="com.yyzy.nearme.gamecenter" scene="50" id="116" fps="45" /> <!-- Night of the Full Moon (Oppo) -->
+    <game package="com.ztgame.yyzy" scene="50" id="116" fps="45" /> <!-- Night of the Full Moon (CN) -->
+    <game package="com.chengshijijiayingxiong.nearme.gamecenter" scene="50" id="117" fps="45" /> <!-- City Mecha Superman -->
+    <game package="com.aligames.kuang.kybc" scene="50" id="137" fps="45" /> <!-- Asphalt 9: Legends -->
+    <game package="com.tencent.toaa" scene="50" id="152" fps="45" /> <!-- Undawn -->
+    <game package="com.miHoYo.hkrpg" scene="50" id="155" fps="45" /> <!-- Honkai: Star Rail (CN) -->
+    <game package="com.miHoYo.hkrpg.bilibili" scene="50" id="155" fps="45" /> <!-- Honkai: Star Rail (Bilibili) -->
+</memc-games>

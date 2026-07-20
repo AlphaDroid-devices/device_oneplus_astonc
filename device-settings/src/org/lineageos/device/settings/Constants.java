@@ -137,6 +137,25 @@ public class Constants {
      *  immediately and re-applied on every panel enable/timing switch. */
     public static final String NODE_ADFR_MIN_FPS = "/sys/kernel/oplus_display/adfr_min_fps";
 
+    /* Game MEMC (Iris 7P frame interpolation, Ace 3 only).
+     * Master + per-game state live in DeviceSettings SharedPreferences only
+     * (nothing outside this APK reads them). Framework Settings.System is used
+     * only for the existing MIN/PEAK_REFRESH_RATE pin while a session is active. */
+    /** SharedPreferences boolean — master toggle */
+    public static final String KEY_MEMC_GAME = "memc_game_enable";
+    /** Preference that opens the per-game enable list */
+    public static final String KEY_MEMC_GAME_APPS = "memc_game_apps";
+    /** SharedPreferences: pipe-separated packages the user has opted out of
+     *  while the master toggle is on. Empty = all profiled games allowed. */
+    public static final String KEY_MEMC_GAME_DISABLED = "memc_game_disabled_apps";
+    /** System-owned prop carrying the irisConfigureSet(258) payload to the CAF
+     *  composer request engine (comma-separated ints; "off" clears). Volatile:
+     *  cleared on reboot, which matches the composer's power-on state. */
+    public static final String PROP_MEMC_REQUEST = "sys.display.iris.memc_request";
+    /** Panel rate pinned while a game MEMC session is active: FRC needs a fixed
+     *  timing (SF mode wander = teardown) and the 120 mode for 60->120 output. */
+    public static final int MEMC_PIN_REFRESH_RATE = 120;
+
     /** Refresh rate */
     public static final String KEY_REFRESH_RATE_MODE = "refresh_rate_mode";
     /** SharedPreferences key for per-app refresh rate overrides (pipe-separated "pkg:fps|pkg:fps") */

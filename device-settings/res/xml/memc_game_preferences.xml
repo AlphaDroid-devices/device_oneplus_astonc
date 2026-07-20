@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ SPDX-FileCopyrightText: 2026 AlphaDroid
+  ~ SPDX-License-Identifier: Apache-2.0
+  ~
+  ~ Per-game MEMC enable list. Populated at runtime from installed packages
+  ~ that appear in memc_game_profiles.xml.
+-->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/memc_game_apps_title">
+
+    <PreferenceCategory
+        android:key="memc_game_apps_list"
+        android:title="@string/memc_game_apps_category" />
+
+    <Preference
+        android:key="memc_game_apps_empty"
+        android:selectable="false"
+        android:title="@string/memc_game_apps_empty"
+        android:summary="@string/memc_game_apps_empty_summary" />
+
+</PreferenceScreen>
