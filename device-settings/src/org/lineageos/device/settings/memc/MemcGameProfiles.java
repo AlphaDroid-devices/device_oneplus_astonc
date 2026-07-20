@@ -47,9 +47,15 @@ public final class MemcGameProfiles {
             this.fps = fps;
         }
 
-        /** irisConfigureSet(258) payload for the composer request engine */
+        /** irisConfigureSet(258) payload for the composer request engine. */
         public String toRequestPayload() {
-            return "10,-1," + scene + ",-1," + id + "," + fps;
+            // The panel is pinned at MEMC_PIN_REFRESH_RATE and the chip interpolates
+            // 2x, so the render cadence the FRC gate locks onto is pin/2 (60 for a
+            // 120 pin). The XML fps is the stock placeholder (45 for most titles) and
+            // must not be published verbatim, or FRC never locks when the game renders
+            // at 60 - only the handful of fps=60 entries would ever engage.
+            int inputFps = Constants.MEMC_PIN_REFRESH_RATE / 2;
+            return "10,-1," + scene + ",-1," + id + "," + inputFps;
         }
     }
 
