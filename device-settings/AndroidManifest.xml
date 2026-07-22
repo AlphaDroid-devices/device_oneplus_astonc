@@ -249,12 +249,6 @@
             android:enabled="true"
             android:exported="false" />
 
-        <!-- Video MEMC RR-pin Service -->
-        <service
-            android:name=".memc.VideoMemcService"
-            android:enabled="true"
-            android:exported="false" />
-
         <!-- Refresh Rate QS Tile Service -->
         <service
             android:name=".refreshrate.RefreshRateTile"

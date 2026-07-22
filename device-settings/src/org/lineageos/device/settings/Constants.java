@@ -159,12 +159,8 @@ public class Constants {
      *  composer request engine (comma-separated ints; "off" clears). Volatile:
      *  cleared on reboot, which matches the composer's power-on state. */
     public static final String PROP_MEMC_REQUEST = "sys.display.iris.memc_request";
-    /** Composer -> policy: "1" while a fullscreen, MEMC-eligible video is on screen.
-     *  VideoMemcService pins the panel at MEMC_PIN_REFRESH_RATE while set so the FRC
-     *  enter can hold (SF would otherwise vote the content rate and tear it down). */
-    public static final String PROP_VIDEO_MEMC = "vendor.display.iris.video_memc";
-    /** Panel rate pinned while a game or video MEMC session is active: FRC needs a
-     *  fixed timing (SF mode wander = teardown) and the 120 mode for 60->120 output. */
+    /** Panel rate pinned while a game MEMC session is active: FRC needs a
+     *  fixed timing and the 120 mode for 60->120 output. */
     public static final int MEMC_PIN_REFRESH_RATE = 120;
 
     /** Refresh rate */

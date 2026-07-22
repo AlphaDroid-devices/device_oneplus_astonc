@@ -167,10 +167,8 @@ public class DeviceSettingsService extends Service {
         try {
             RefreshRateController.getInstance(this);
             RefreshRateMonitorService.notifyStateChanged(this);
-            // Mirror the persisted Video Enhancement choice onto the composer gate,
-            // then start the pin service that follows the composer's video signal.
+            // Mirror the persisted Video Enhancement choice onto the composer gate.
             VideoMemcService.applyMasterEnable(this);
-            VideoMemcService.notifyStateChanged(this);
             if (Constants.DEBUG) Log.i(TAG, "RefreshRate initialized");
         } catch (Exception e) {
             Log.e(TAG, "Failed to initialize RefreshRate", e);
@@ -246,17 +244,9 @@ public class DeviceSettingsService extends Service {
     private void handleScreenOff() {
         if (Constants.DEBUG) Log.i(TAG, "Screen OFF");
 
-        // Disable HBM (business rule #2)
-        try {
-            HbmController hbmController = HbmController.getInstance(this);
-            if (hbmController.isHbmEnabled()) {
-                hbmController.disableHbm();
-                DisplayModeController.getInstance(this).broadcastStateChange();
-                if (Constants.DEBUG) Log.i(TAG, "HBM disabled on screen off");
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "Failed to disable HBM on screen off", e);
-        }
+        // HBM (hbm_max) off on sleep is enforced by the kernel now
+        // (oplus_display_set_power resets hbm_max on DPMS OFF/LP so the UI can't
+        // freeze with HBM latched). We only sync our displayed state on screen-on.
 
         // Stop GameBar
         try {
@@ -271,6 +261,16 @@ public class DeviceSettingsService extends Service {
 
     private void handleScreenOn() {
         if (Constants.DEBUG) Log.i(TAG, "Screen ON");
+
+        // Sync HBM state: the kernel forced hbm_max off while the panel slept, so
+        // reconcile our preference to the node and refresh the tile/switch, which
+        // would otherwise show a stale ON.
+        try {
+            HbmController.getInstance(this).syncState();
+            DisplayModeController.getInstance(this).broadcastStateChange();
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to sync HBM state on screen on", e);
+        }
 
         // Restart GameBar if needed
         try {

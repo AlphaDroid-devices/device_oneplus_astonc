@@ -21,7 +21,6 @@ import android.util.Log;
 import org.lineageos.device.settings.Constants;
 import org.lineageos.device.settings.display.HbmController;
 import org.lineageos.device.settings.memc.MemcGameService;
-import org.lineageos.device.settings.memc.VideoMemcService;
 import org.lineageos.device.settings.utils.FileUtils;
 import org.lineageos.device.settings.utils.ForegroundAppDetector;
 
@@ -178,9 +177,9 @@ public class RefreshRateMonitorService extends Service {
             return;
         }
 
-        // Same contract for a game or video MEMC session: FRC needs the fixed 120
+        // Same contract for a game MEMC session: FRC needs the fixed 120
         // pin; the owning service re-notifies this service when the session ends.
-        if (MemcGameService.isPinActive() || VideoMemcService.isPinActive()) {
+        if (MemcGameService.isPinActive()) {
             if (Constants.DEBUG) Log.i(TAG, "MEMC pin active, skipping refresh rate change");
             return;
         }
