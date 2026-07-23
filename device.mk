@@ -61,7 +61,7 @@ PRODUCT_PACKAGES += \
     OPlusWifiResTarget
 
 # Power
-$(call soong_config_set,qtipower,mode_ext_lib,power-ext-oplus)
+$(call soong_config_set,power_libperfmgr,mode_extension_lib,power-ext-oplus)
 
 # Sensors
 PRODUCT_PACKAGES += \
