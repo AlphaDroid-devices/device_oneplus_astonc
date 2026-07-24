@@ -60,8 +60,9 @@ PRODUCT_PACKAGES += \
     OPlusSystemUIResTarget \
     OPlusWifiResTarget
 
-# Power
-$(call soong_config_set,power_libperfmgr,mode_extension_lib,power-ext-oplus)
+# Power — FQ module name: lineage-libperfmgr lives in its own soong namespace and
+# cannot resolve bare "power-ext-oplus" (that module is under hardware/oplus).
+$(call soong_config_set,power_libperfmgr,mode_extension_lib,//hardware/oplus:power-ext-oplus)
 
 # Sensors
 PRODUCT_PACKAGES += \
