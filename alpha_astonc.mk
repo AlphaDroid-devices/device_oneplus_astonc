@@ -69,8 +69,8 @@ TARGET_PREBUILT_BCR := true
 # OPlus haptic ringtones (48 kHz, ANDROID_HAPTIC=1, authored for a 170 Hz LRA).
 # Curate the set by adding/removing .ogg files under vendor/alpha/audio/oplus/.
 INCLUDE_OPLUS_RINGTONES := true
-# OPLUS_DEFAULT_RINGTONE := Verdant_lotus_pond.ogg
-# OPLUS_DEFAULT_NOTIFICATION := Allay.ogg
+OPLUS_DEFAULT_RINGTONE := Night_sky.ogg
+OPLUS_DEFAULT_NOTIFICATION := Light.ogg
 
 # Maintainer
 ALPHA_BUILD_TYPE := Official
