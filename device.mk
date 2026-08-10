@@ -7,6 +7,9 @@
 PRODUCT_AAPT_CONFIG := normal
 PRODUCT_AAPT_PREF_CONFIG := xxhdpi
 
+# Dalvik — Ace 3 (astonc) has 12GB RAM
+$(call inherit-product, frameworks/native/build/phone-xhdpi-12288-dalvik-heap.mk)
+
 # Audio
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/audio/audio_policy_volumes.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_volumes.xml \
