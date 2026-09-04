@@ -22,7 +22,6 @@ import android.view.Display;
 import android.view.View;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Locale;
@@ -37,9 +36,6 @@ public class LiveBannerView extends View {
         { 0.0420f, 0.6206f, 0.5200f, 0.7822f },   // display
         { 0.0420f, 0.8034f, 0.5200f, 0.9650f },   // ram
     };
-
-    private static final String NODE_MEASURED_FPS =
-            "/sys/class/drm/card0-sde-crtc-0/measured_fps";
 
     private static final int COL_LABEL  = 0xFF8A97A6;
     private static final int COL_VALUE  = 0xFFF2F5F8;
@@ -330,8 +326,6 @@ public class LiveBannerView extends View {
 
     private static final class Stats {
         private long mPrevIdle = -1, mPrevTotal = -1;
-        private String mThermalPath;
-        private boolean mThermalResolved;
 
         /** CPU busy percentage, or -1 on the priming sample. */
         int cpuUsage() {
@@ -361,15 +355,12 @@ public class LiveBannerView extends View {
         }
 
         float temperature() {
-            final String path = thermalPath();
+            final String path = ThermalZones.cpuTempPath();
             if (path == null) return Float.NaN;
             final String v = firstLine(path);
             if (v == null) return Float.NaN;
             try {
-                final float raw = Float.parseFloat(v.trim());
-                if (raw > 1000f) return raw / 1000f;
-                if (raw > 200f) return raw / 10f;
-                return raw;
+                return ThermalZones.toCelsius(Float.parseFloat(v.trim()));
             } catch (NumberFormatException e) {
                 return Float.NaN;
             }
@@ -381,7 +372,7 @@ public class LiveBannerView extends View {
          * the fixed mode rate. Accepts a bare number or a "label: N" line.
          */
         float fps() {
-            final String line = firstLine(NODE_MEASURED_FPS);
+            final String line = firstLine(Constants.NODE_MEASURED_FPS);
             if (line == null) return Float.NaN;
             String t = line.trim();
             if (t.contains(": ")) {
@@ -418,31 +409,6 @@ public class LiveBannerView extends View {
             } catch (NumberFormatException e) {
                 return 0;
             }
-        }
-
-        /** Zone numbering shifts between builds, so resolve by type once. */
-        private String thermalPath() {
-            if (mThermalResolved) return mThermalPath;
-            mThermalResolved = true;
-            final String[] prefer = { "cpuss", "cpu-", "soc", "skin" };
-            final File root = new File("/sys/class/thermal");
-            final File[] zones = root.listFiles(
-                    (dir, name) -> name.startsWith("thermal_zone"));
-            if (zones != null) {
-                for (String want : prefer) {
-                    for (File z : zones) {
-                        final String type = firstLine(new File(z, "type").getPath());
-                        if (type != null && type.trim().toLowerCase(Locale.US).startsWith(want)
-                                && new File(z, "temp").canRead()) {
-                            mThermalPath = new File(z, "temp").getPath();
-                            return mThermalPath;
-                        }
-                    }
-                }
-            }
-            final File fallback = new File("/sys/class/thermal/thermal_zone0/temp");
-            if (fallback.canRead()) mThermalPath = fallback.getPath();
-            return mThermalPath;
         }
 
         private static String firstLine(String path) {
