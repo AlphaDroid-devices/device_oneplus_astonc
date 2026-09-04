@@ -18,10 +18,10 @@ public final class ThermalZones {
 
     /**
      * Zone types that report the CPU, most specific first. Deliberately excludes the
-     * chassis sensors (skin, shell) and thermal_zone0, which is the RF power amplifier
-     * on this SoC and reads several degrees off the cores.
+     * chassis sensors (skin, shell), socd (a throttle level, not millidegrees) and
+     * thermal_zone0, which is the RF power amplifier and reads ~9C below the cores.
      */
-    private static final String[] CPU_ZONE_TYPES = { "cpuss", "cpu-", "socd" };
+    private static final String[] CPU_ZONE_TYPES = { "cpuss", "cpu-" };
 
     private static String sCpuTemp;
     private static boolean sResolved;
